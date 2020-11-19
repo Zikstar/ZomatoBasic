@@ -20,33 +20,32 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setupViewModelAndObservers()
+        handleIntent(intent)
+        setContentView(R.layout.activity_main)
+    }
 
+    private fun setupViewModelAndObservers() {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.searchResultsLiveData.observe(this, Observer {
-            if(it != null && it is ResultWrapper.Success){
+            if (it != null && it is ResultWrapper.Success) {
                 val searchResult = it.value
                 val bestRestaurants = searchResult.restaurants
 
-                if(bestRestaurants.isNotEmpty()){
+                if (bestRestaurants.isNotEmpty()) {
                     val restaurants = arrayListOf<Restaurant>()
-                    for (bestRestaurant in bestRestaurants){
+                    for (bestRestaurant in bestRestaurants) {
                         restaurants.add(bestRestaurant.restaurant)
                     }
 
-                    startFragment(SearchFragment.newInstance(restaurants, query),
+                    startFragment(
+                        SearchFragment.newInstance(restaurants, query),
                         addToBackStack = true,
                         allowStateLoss = false
                     )
                 }
-
-
             }
         })
-
-
-
-        handleIntent(intent)
-        setContentView(R.layout.activity_main)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

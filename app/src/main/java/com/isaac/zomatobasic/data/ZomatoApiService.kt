@@ -23,6 +23,7 @@ interface ZomatoApiService {
     @Headers("user-key: 1b3c8b37ea96785391fa55c288ac385c")
     @GET("/api/v2.1/search")
     suspend fun search(@Query("entity_id") entityId: Int,
-                                   @Query("entity_type") entityType: String, @Query("q") searchString : String) : SearchResultResponse
+                       @Query("entity_type") entityType: String,
+                       @Query("q") searchString : String) : SearchResultResponse
 
 }
